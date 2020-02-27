@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS 활용문제 2. [SmartJack] WEB / Front-End 코딩테스트</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1 id="key"></h1>
+      <p id="value"></p>
+    </div>
+
+    <script src="ajax.js"></script>
+    <script>
+      // get
+      ajax.get({
+        url: 'https://36bl37sesg.execute-api.ap-northeast-2.amazonaws.com/recurit/helloSmartjack',
+        success: (result) => {
+          const { key, value } = result;
+          document.getElementById('key').innerText = key;
+          document.getElementById('value').innerText = value;
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+
+      // post
+      /* ajax.post({
+        url: 'https://36bl37sesg.execute-api.ap-northeast-2.amazonaws.com/recurit/helloSmartjack',
+        data: {
+          items: [1,2,3,4,5]
+        },
+        success: (result) => {
+          document.getElementById('key').innerText = result.key;
+          document.getElementById('value').innerText = result.value;
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      }); */
+    </script>
+  </body>
+</html>

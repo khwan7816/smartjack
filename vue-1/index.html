@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 활용문제 1. [SmartJack] WEB / Front-End 코딩테스트</title>
+
+    <style>
+      body { margin: 0; }
+      .drag {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        cursor: move;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="drag" ref="drag" @mousedown="onDragStart"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            moveX: 0,
+            moveY: 0,
+            lastX: 0,
+            lastY: 0
+          };
+        },
+        mounted() {},
+        methods: {
+          onDragStart(e) {
+            // 처음 클릭한 지점
+            this.lastX = e.clientX;
+            this.lastY = e.clientY;
+
+            this.onMove();
+            this.onClose();
+          },
+          onMove() {
+            document.onmousemove = e => {
+              // document 기준
+              // 이동거리 = 최종위치 - 이전위치
+              this.moveX = e.clientX - this.lastX;
+              this.moveY = e.clientY - this.lastY;
+
+              const element = this.$refs.drag;
+
+              // element 위치 = 기존위치 + 이동거리
+              element.style.left = `${element.offsetLeft + this.moveX}px`;
+              element.style.top = `${element.offsetTop + this.moveY}px`;
+
+              // 최종위치 저장
+              this.lastX = e.clientX;
+              this.lastY = e.clientY;
+            };
+          },
+          onClose() {
+            document.onmouseup = () => {
+              document.onmousemove = null;
+              document.onmouseup = null;
+            };
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
